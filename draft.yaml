@@ -1,0 +1,92 @@
+models:
+    TblProductCategory:
+        id: id
+        name: string
+        description: bigInteger
+    TblProduct:
+        id: id
+        product_name: bigInteger
+        merchan_id: bigInteger
+        type: bigInteger
+        price: decimal
+        stock: bigInteger
+        category_id: bigInteger foreign:tbl_product_category.id
+        description: string
+        status: boolean
+    TblSalesReport:
+        id: id
+        merchant_id: bigInteger foreign:tbl_merchants.id
+        product_id: bigInteger foreign:tbl_products.id
+        total_sales: decimal
+        sales_quantity: bigInteger
+        report_month: date
+    TblMerchant:
+        id: id
+        name: bigInteger
+        display_picture: string
+        city_id: bigInteger
+        address: bigInteger
+        contact_person: bigInteger
+        status: boolean
+    TblOrder:
+        id: id
+        customer_id: bigInteger
+        total_amount: decimal
+        status: enum:""
+    TblOrderLog:
+        id: id
+        order_id: bigInteger foreign:tbl_orders.id
+        status: enum:""
+        message: text
+    TblMerchantPayment:
+        id: id
+        merchant_id: bigInteger foreign:tbl_merchants.id
+        order_id: bigInteger
+        amount: decimal
+        payment_date: timestamp
+    TblStockTransaction:
+        id: id
+        product_id: bigInteger foreign:tbl_products.id
+        merchant_id: bigInteger foreign:tbl_merchants.id
+        transaction_type: enum:""
+        quantity: integer
+        transaction_date: timestamp
+    TblPayment:
+        id: id
+        order_id: bigInteger foreign:tbl_orders.id
+        payment_method: enum:""
+        amount: decimal
+        payment_status: bigInteger
+        payment_date: bigInteger
+    TblProductPicture:
+        id: id
+        product_id: bigInteger foreign:tbl_products.id
+        picture: bigInteger
+    TblShipment:
+        id: id
+        order_id: bigInteger foreign:tbl_orders.id
+        shipping_address: text
+        shipping_status: enum:""
+        tracking_number: string
+        shipped_at: timestamp
+    TblOrderItem:
+        id: id
+        order_id: bigInteger foreign:tbl_orders.id
+        product_id: bigInteger
+        quantity: bigInteger
+        price: bigInteger
+        total_price: bigInteger
+    TblNotification:
+        id: id
+        user_id: bigInteger
+        user_type: bigInteger
+        message: text
+        notification_type: enum:""
+        is_read: boolean
+    TblCartItem:
+        id: id
+        cart_id: bigInteger
+        product_id: bigInteger foreign:tbl_products.id
+        quantity: bigInteger
+        price: bigInteger
+        total_price: bigInteger

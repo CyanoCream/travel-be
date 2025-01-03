@@ -1,0 +1,58 @@
+created:
+    - database/factories/TblProductCategoryFactory.php
+    - database/factories/TblProductFactory.php
+    - database/factories/TblSalesReportFactory.php
+    - database/factories/TblMerchantFactory.php
+    - database/factories/TblOrderFactory.php
+    - database/factories/TblOrderLogFactory.php
+    - database/factories/TblMerchantPaymentFactory.php
+    - database/factories/TblStockTransactionFactory.php
+    - database/factories/TblPaymentFactory.php
+    - database/factories/TblProductPictureFactory.php
+    - database/factories/TblShipmentFactory.php
+    - database/factories/TblOrderItemFactory.php
+    - database/factories/TblNotificationFactory.php
+    - database/factories/TblCartItemFactory.php
+    - database/migrations/2024_11_12_122037_create_tbl_product_categories_table.php
+    - database/migrations/2024_11_12_122038_create_tbl_products_table.php
+    - database/migrations/2024_11_12_122039_create_tbl_sales_reports_table.php
+    - database/migrations/2024_11_12_122040_create_tbl_merchants_table.php
+    - database/migrations/2024_11_12_122041_create_tbl_orders_table.php
+    - database/migrations/2024_11_12_122042_create_tbl_order_logs_table.php
+    - database/migrations/2024_11_12_122043_create_tbl_merchant_payments_table.php
+    - database/migrations/2024_11_12_122044_create_tbl_stock_transactions_table.php
+    - database/migrations/2024_11_12_122045_create_tbl_payments_table.php
+    - database/migrations/2024_11_12_122046_create_tbl_product_pictures_table.php
+    - database/migrations/2024_11_12_122047_create_tbl_shipments_table.php
+    - database/migrations/2024_11_12_122048_create_tbl_order_items_table.php
+    - database/migrations/2024_11_12_122049_create_tbl_notifications_table.php
+    - database/migrations/2024_11_12_122050_create_tbl_cart_items_table.php
+    - app/Models/TblProductCategory.php
+    - app/Models/TblProduct.php
+    - app/Models/TblSalesReport.php
+    - app/Models/TblMerchant.php
+    - app/Models/TblOrder.php
+    - app/Models/TblOrderLog.php
+    - app/Models/TblMerchantPayment.php
+    - app/Models/TblStockTransaction.php
+    - app/Models/TblPayment.php
+    - app/Models/TblProductPicture.php
+    - app/Models/TblShipment.php
+    - app/Models/TblOrderItem.php
+    - app/Models/TblNotification.php
+    - app/Models/TblCartItem.php
+models:
+    TblProductCategory: { id: id, name: string, description: bigInteger }
+    TblProduct: { id: id, product_name: bigInteger, merchan_id: bigInteger, type: bigInteger, price: decimal, stock: bigInteger, category_id: 'bigInteger foreign:tbl_product_category.id', description: string, status: boolean }
+    TblSalesReport: { id: id, merchant_id: 'bigInteger foreign:tbl_merchants.id', product_id: 'bigInteger foreign:tbl_products.id', total_sales: decimal, sales_quantity: bigInteger, report_month: date }
+    TblMerchant: { id: id, name: bigInteger, display_picture: string, city_id: bigInteger, address: bigInteger, contact_person: bigInteger, status: boolean }
+    TblOrder: { id: id, customer_id: bigInteger, total_amount: decimal, status: 'enum:""' }
+    TblOrderLog: { id: id, order_id: 'bigInteger foreign:tbl_orders.id', status: 'enum:""', message: text }
+    TblMerchantPayment: { id: id, merchant_id: 'bigInteger foreign:tbl_merchants.id', order_id: bigInteger, amount: decimal, payment_date: timestamp }
+    TblStockTransaction: { id: id, product_id: 'bigInteger foreign:tbl_products.id', merchant_id: 'bigInteger foreign:tbl_merchants.id', transaction_type: 'enum:""', quantity: integer, transaction_date: timestamp }
+    TblPayment: { id: id, order_id: 'bigInteger foreign:tbl_orders.id', payment_method: 'enum:""', amount: decimal, payment_status: bigInteger, payment_date: bigInteger }
+    TblProductPicture: { id: id, product_id: 'bigInteger foreign:tbl_products.id', picture: bigInteger }
+    TblShipment: { id: id, order_id: 'bigInteger foreign:tbl_orders.id', shipping_address: text, shipping_status: 'enum:""', tracking_number: string, shipped_at: timestamp }
+    TblOrderItem: { id: id, order_id: 'bigInteger foreign:tbl_orders.id', product_id: bigInteger, quantity: bigInteger, price: bigInteger, total_price: bigInteger }
+    TblNotification: { id: id, user_id: bigInteger, user_type: bigInteger, message: text, notification_type: 'enum:""', is_read: boolean }
+    TblCartItem: { id: id, cart_id: bigInteger, product_id: 'bigInteger foreign:tbl_products.id', quantity: bigInteger, price: bigInteger, total_price: bigInteger }
