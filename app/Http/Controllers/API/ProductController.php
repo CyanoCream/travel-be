@@ -49,4 +49,31 @@ class ProductController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+    public function getProductBySlug(Request $request, $slug)
+    {
+        try {
+            // Find product by slug with its relationships
+            $product = TblProduct::with(['category'])
+                ->where('slug', $slug)
+                ->firstOrFail();
+
+            // Transform product for API response
+            $response = [
+                'id' => $product->id,
+                'product_name' => $product->product_name,
+                'description' => $product->description,
+                'category' => $product->category ? $product->category->name : null,
+                'slug' => $product->slug
+            ];
+
+            return response()->json([
+                'data' => $response
+            ]);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'Produk tidak ditemukan'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
 }

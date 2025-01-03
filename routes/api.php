@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/products', [ProductController::class, 'getAllProduct']);
+Route::get('/products/{slug}', [ProductController::class, 'getProductBySlug']);
