@@ -12,11 +12,11 @@
         use HasFactory, Notifiable, SoftDeletes;
 
         protected $fillable = [
-            'name',
+            'firts_name',
             'email',
             'profile_picture',
             'phone_number',
-            'fullname',
+            'last_name',
             'username',
             'password',
             'address',

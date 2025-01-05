@@ -1,7 +1,7 @@
 {{-- resources/views/users/form.blade.php --}}
 <div class="mb-3">
-    <label class="form-label required">Nama</label>
-    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+    <label class="form-label required">Nama Depan</label>
+    <input type="text" name="first_name" class="form-control @error('name') is-invalid @enderror"
            value="{{ old('name', $user->name ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }} required>
     @error('name')
     <div class="invalid-feedback">{{ $message }}</div>
@@ -27,10 +27,10 @@
 </div>
 
 <div class="mb-3">
-    <label class="form-label">Nama Lengkap</label>
-    <input type="text" name="fullname" class="form-control @error('fullname') is-invalid @enderror"
-           value="{{ old('fullname', $user->fullname ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }}>
-    @error('fullname')
+    <label class="form-label">Nama Belakang</label>
+    <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror"
+           value="{{ old('last_name', $user->last_name ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }}>
+    @error('last_name')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

@@ -4,11 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -19,9 +21,12 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'birthdate',
+        'address'
     ];
 
     /**
@@ -42,4 +47,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Implementasi metode dari JWTSubject
+    public function getJWTIdentifier()
+    {
+        // Return primary key dari model user (biasanya 'id')
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        // Return array kosong jika tidak ada klaim tambahan
+        return [];
+    }
 }

@@ -16,7 +16,7 @@ class UserController extends Controller
             $users = Users::query();
 
             if ($request->search) {
-                $users->where('name', 'like', "%{$request->search}%")
+                $users->where('first_name', 'like', "%{$request->search}%")
                     ->orWhere('email', 'like', "%{$request->search}%");
             }
 
