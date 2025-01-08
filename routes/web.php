@@ -9,6 +9,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\Provincecontroller;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\SubdistrictController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +56,6 @@ Route::middleware('auth')->group(callback: function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 

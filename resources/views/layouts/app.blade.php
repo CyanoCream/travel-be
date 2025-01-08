@@ -136,7 +136,13 @@
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js')}}"></script>
-
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 @yield('script')
 </body>
 </html>
