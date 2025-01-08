@@ -56,6 +56,6 @@ Route::middleware('auth')->group(callback: function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::post('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
