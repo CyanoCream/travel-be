@@ -60,5 +60,9 @@ class TblProduct extends Model
     {
         return $this->belongsTo(TblMerchant::class, 'merchan_id');
     }
+    public function pictures(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TblProductPicture::class, 'product_id', 'id');
+    }
 
 }

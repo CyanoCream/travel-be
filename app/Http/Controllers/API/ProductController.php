@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\TblProduct;
+use App\Models\TblProductCategory;
+use App\Models\TblProductPicture;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -12,68 +14,101 @@ class ProductController extends Controller
     public function getAllProduct(Request $request)
     {
         try {
-            // Query products with optional search
-            $products = TblProduct::query();
 
+            // Query products with optional search
+            $category = TblProductCategory::all();
+            $products = TblProduct::query();
             if ($request->search) {
                 $products->where('product_name', 'like', "%{$request->search}%")
                     ->orWhere('description', 'like', "%{$request->search}%");
             }
 
-            // Fetch products with category and first picture
+            // Fetch products with category and pictures
             $products = $products->with(['category', 'pictures' => function ($query) {
                 $query->limit(1);
             }])->paginate(10);
 
-            // Transform products for API response
-            $response = $products->map(function ($product) {
+            // Transform products according to new format
+            $transformedProducts = $products->map(function ($product) {
                 return [
                     'id' => $product->id,
-                    'product_name' => $product->product_name,
-                    'description' => $product->description,
+                    'name' => $product->product_name,
+                    'slug' => $product->slug,
+                    'price' => (float) $product->price,
+                    'status' => $product->status,
+                    'image' => $product->pictures->first() ? $product->pictures->first()->picture : null,
                     'category' => $product->category ? $product->category->name : null,
-                    'picture' => $product->pictures->isNotEmpty() ? $product->pictures[0]->picture : null,
+                    'createdAt' => $product->created_at->toISOString()
                 ];
             });
 
             return response()->json([
-                'data' => $response,
-                'pagination' => [
-                    'total' => $products->total(),
-                    'per_page' => $products->perPage(),
-                    'current_page' => $products->currentPage(),
-                    'last_page' => $products->lastPage(),
-                ]
-            ]);
+                'status' => true,
+                'message' => 'Products retrieved successfully',
+                'products' => $transformedProducts,
+                'categories' => $category,
+                'totalPages' => $products->lastPage(),
+                'currentPage' => $products->currentPage(),
+                'totalProducts' => $products->total()
+            ], 200);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
     }
     public function getProductBySlug(Request $request, $slug)
     {
         try {
-            // Find product by slug with its relationships
-            $product = TblProduct::with(['category'])
+            // Fetch product with category and all pictures
+            $product = TblProduct::with(['category', 'pictures', 'merchant'])
                 ->where('slug', $slug)
-                ->firstOrFail();
+                ->first();
 
-            // Transform product for API response
-            $response = [
+            if (!$product) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Product not found'
+                ], 404);
+            }
+
+            // Transform product data
+            $transformedProduct = [
                 'id' => $product->id,
-                'product_name' => $product->product_name,
+                'name' => $product->product_name,
+                'price' => (float) $product->price,
+                'status' => $product->status,
                 'description' => $product->description,
-                'category' => $product->category ? $product->category->name : null,
-                'slug' => $product->slug
+                'merchant' => $product->merchant ? [
+                    'id' => $product->merchant->id,
+                    'name' => $product->merchant->name
+                ] : null,
+                'category' => $product->category ? [
+                    'id' => $product->category->id,
+                    'name' => $product->category->name
+                ] : null,
+                'images' => $product->pictures->map(function($picture) {
+                    return [
+                        'id' => $picture->id,
+                        'url' => $picture->picture
+                    ];
+                }),
+                'stock' => $product->stock,
+                'createdAt' => $product->created_at->toISOString()
             ];
 
             return response()->json([
-                'data' => $response
-            ]);
+                'status' => true,
+                'message' => 'Product detail retrieved successfully',
+                'product' => $transformedProduct
+            ], 200);
 
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Produk tidak ditemukan'], 404);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

@@ -25,11 +25,7 @@ class TblProductPicture extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'id' => 'integer',
-        'product_id' => 'integer',
-        'picture' => 'integer',
-    ];
+
 
     public function product(): BelongsTo
     {
