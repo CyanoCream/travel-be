@@ -19,7 +19,7 @@
         <div class="card-style-3 mb-30">
             <div class="card-content">
                 @if(isset($viewMode) && !$viewMode)
-                    <form id="editForm" action="{{ route('product.update', $product) }}" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         @endif

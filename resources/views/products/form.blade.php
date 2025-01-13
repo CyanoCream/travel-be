@@ -86,13 +86,16 @@
     @error('pictures.*')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
-
+    @php
+        $currentImage = $pictures;
+        dd($currentImage);
+    @endphp
     @if(isset($pictures) && $pictures->count() > 0)
         <div class="row mt-3">
             @foreach($pictures as $picture)
                 <div class="col-md-3 mb-3 position-relative">
                     <img src="{{ Storage::url($picture->picture) }}" class="img-fluid" alt="Product Image">
-                    @if(!isset($viewMode) || !$viewMode)
+                @if(!isset($viewMode) || !$viewMode)
                         <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-picture"
                                 data-picture-id="{{ $picture->id }}">
                             <i class="fa fa-trash"></i>
