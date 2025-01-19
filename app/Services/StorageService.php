@@ -63,7 +63,7 @@ class StorageService
      * @throws Exception
      */
     public static function getData($path){
-        if($path && self::exists($path)){
+        if($path && true){
             return Storage::cloud()->temporaryUrl(urldecode($path), Carbon::now()->addMinutes(5));
         }else{
             return null;

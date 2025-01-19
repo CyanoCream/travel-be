@@ -15,12 +15,10 @@ return new class extends Migration
 
         Schema::create('tbl_cart_items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('cart_id');
-            $table->bigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('tbl_products');
             $table->bigInteger('quantity');
-            $table->bigInteger('price');
-            $table->bigInteger('total_price');
+            $table->float('price');
+            $table->float('total_price');
             $table->timestamps();
         });
 

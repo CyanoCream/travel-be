@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TblProduct;
 use App\Models\TblProductCategory;
 use App\Models\TblProductPicture;
+use App\Services\StorageService;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -30,13 +31,14 @@ class ProductController extends Controller
 
             // Transform products according to new format
             $transformedProducts = $products->map(function ($product) {
+                $gambar = StorageService::getData( $product->pictures->first()->picture?? '');
                 return [
                     'id' => $product->id,
                     'name' => $product->product_name,
                     'slug' => $product->slug,
                     'price' => (float) $product->price,
                     'status' => $product->status,
-                    'image' => $product->pictures->first() ? $product->pictures->first()->picture : null,
+                    'image' => $gambar,
                     'category' => $product->category ? $product->category->name : null,
                     'createdAt' => $product->created_at->toISOString()
                 ];

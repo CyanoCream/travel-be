@@ -80,7 +80,8 @@ class ProductController extends Controller
         try {
             $categories = TblProductCategory::all();
             $pictures = TblProductPicture::where('product_id', $product->id)->get();
-            return view('products.edit', compact('product', 'categories', 'pictures', 'viewMode'))
+            $gambar = StorageService::getData($pictures[0]->picture);
+            return view('products.edit', compact('product', 'categories', 'pictures', 'gambar'))
                 ->with('storageService', app(StorageService::class));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
@@ -92,7 +93,8 @@ class ProductController extends Controller
         try {
             $categories = TblProductCategory::all();
             $pictures = TblProductPicture::where('product_id', $product->id)->get();
-            return view('products.edit', compact('product', 'categories', 'pictures'))->with('viewMode', false);
+            $gambar = StorageService::getData($pictures[0]->picture ?? '');
+            return view('products.edit', compact('product', 'categories', 'pictures','gambar'))->with('viewMode', false);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
