@@ -38,7 +38,7 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'product_name' => 'required',
-                'merchan_id' => 'required|integer',
+                'merchant_id' => 'required|integer',
                 'type' => 'required',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer',
@@ -106,7 +106,7 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'product_name' => 'required|integer',
-                'merchan_id' => 'required|integer',
+                'merchant_id' => 'required|integer',
                 'type' => 'required|integer',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer',

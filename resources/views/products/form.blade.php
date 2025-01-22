@@ -25,9 +25,9 @@
 
 <div class="mb-3">
     <label class="form-label required">ID Merchant</label>
-    <input type="number" name="merchan_id" class="form-control @error('merchan_id') is-invalid @enderror"
-           value="{{ old('merchan_id', $product->merchan_id ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }} required>
-    @error('merchan_id')
+    <input type="number" name="merchant_id" class="form-control @error('merchant_id') is-invalid @enderror"
+           value="{{ old('merchant_id', $product->merchant_id ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }} required>
+    @error('merchant_id')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>

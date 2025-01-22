@@ -23,7 +23,7 @@ class TblProductFactory extends Factory
     {
         return [
             'product_name' => $this->faker->numberBetween(-100000, 100000),
-            'merchan_id' => $this->faker->numberBetween(-100000, 100000),
+            'merchant_id' => $this->faker->numberBetween(-100000, 100000),
             'type' => $this->faker->numberBetween(-100000, 100000),
             'price' => $this->faker->randomFloat(0, 0, 9999999999.),
             'stock' => $this->faker->numberBetween(-100000, 100000),

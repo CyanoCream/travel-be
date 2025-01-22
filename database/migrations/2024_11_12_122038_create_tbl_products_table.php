@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tbl_products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
-            $table->bigInteger('merchan_id');
+            $table->bigInteger('merchant_id');
             $table->string('type');
             $table->decimal('price');
             $table->bigInteger('stock');

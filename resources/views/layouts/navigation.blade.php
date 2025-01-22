@@ -67,6 +67,7 @@
             </li>
         </ul>
     </li>
+
     <li class="nav-item nav-item-has-children">
         <a class="collapsed" href="#0" class="" data-bs-toggle="collapse" data-bs-target="#ddmenu_ecommerce"
            aria-controls="ddmenu_ecommerce" aria-expanded="true" aria-label="Toggle navigation">
@@ -82,6 +83,9 @@
         </a>
         <ul id="ddmenu_ecommerce" class="dropdown-nav collapse" style="">
             <li>
+                <a href="{{ route('merchants.index') }}">Merchant</a>
+            </li>
+            <li>
                 <a href="{{ route('products.index') }}">Product</a>
             </li>
             <li>
@@ -89,5 +93,23 @@
             </li>
         </ul>
     </li>
-
+    <li class="nav-item nav-item-has-children">
+        <a class="collapsed" href="#0" class="" data-bs-toggle="collapse" data-bs-target="#ddmenu_ecommerce"
+           aria-controls="ddmenu_ecommerce" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M20 6H4V5C4 3.897 4.897 3 6 3H18C19.103 3 20 3.897 20 5V6ZM5 9H19L20.001 20.142C20.064 20.571 19.761 21 19.324 21H4.676C4.239 21 3.936 20.571 3.999 20.142L5 9ZM9 14C8.447 14 8 14.448 8 15C8 15.552 8.447 16 9 16C9.553 16 10 15.552 10 15C10 14.448 9.553 14 9 14ZM15 14C14.447 14 14 14.448 14 15C14 15.552 14.447 16 15 16C15.553 16 16 15.552 16 15C16 14.448 15.553 14 15 14Z"
+                    fill="currentColor">
+                </path>
+            </svg>
+        </span>
+            <span class="text">Monitoring</span>
+        </a>
+        <ul id="ddmenu_ecommerce" class="dropdown-nav collapse" style="">
+            <li>
+                <a href="{{ route('chart-items.index') }}">Cart Item</a>
+            </li>
+        </ul>
+    </li>
 </ul>

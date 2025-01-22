@@ -19,7 +19,12 @@ return new class extends Migration
             $table->bigInteger('quantity');
             $table->float('price');
             $table->float('total_price');
+            $table->boolean('is_active')->default(true);
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
+            $table->bigInteger('deleted_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();

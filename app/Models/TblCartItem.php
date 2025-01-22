@@ -37,8 +37,56 @@ class TblCartItem extends Model
         'total_price' => 'integer',
     ];
 
-    public function product(): BelongsTo
+    protected static function boot()
     {
-        return $this->belongsTo(TblProduct::class);
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_by = Auth::id();
+            $model->updated_by = Auth::id();
+            $model->is_active = true;
+
+            // Get price from product
+            if (!$model->price) {
+                $model->price = $model->product->price;
+            }
+
+            // Calculate total price
+            $model->total_price = $model->price * $model->quantity;
+        });
+
+        static::updating(function ($model) {
+            $model->updated_by = Auth::id();
+
+            // Recalculate total price if quantity or price changes
+            if ($model->isDirty(['quantity', 'price'])) {
+                $model->total_price = $model->price * $model->quantity;
+            }
+        });
+
+        static::deleting(function ($model) {
+            $model->deleted_by = Auth::id();
+            $model->save();
+        });
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(TblProduct::class, 'product_id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }
