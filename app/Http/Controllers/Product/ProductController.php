@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TblProduct;
 use App\Models\TblProductCategory;
 use App\Models\TblProductPicture;
+use App\Services\StorageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -37,24 +38,31 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'product_name' => 'required',
-                'merchan_id' => 'required|integer',
+                'merchant_id' => 'required|integer',
                 'type' => 'required',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer',
                 'description' => 'required|string',
                 'status' => 'required|boolean',
                 'category_id' => 'required',
-
+                'pictures.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048' // Add validation for images
             ]);
 
             $product = TblProduct::create($validated);
 
             if ($request->hasFile('pictures')) {
                 foreach ($request->file('pictures') as $picture) {
-                    $path = $picture->store('products', 'public');
+                    // Use StorageService to upload the file
+                    $uploadResult = StorageService::upload(
+                        $picture,
+                        'products/' . $product->id, // Create subfolder for each product
+                        time() . '-' . $picture->getClientOriginalName()
+                    );
+
+                    // Save the picture information to database
                     TblProductPicture::create([
                         'product_id' => $product->id,
-                        'picture' => $path
+                        'picture' => $uploadResult['file_path'] . '/' . $uploadResult['file_name']
                     ]);
                 }
             }
@@ -72,7 +80,9 @@ class ProductController extends Controller
         try {
             $categories = TblProductCategory::all();
             $pictures = TblProductPicture::where('product_id', $product->id)->get();
-            return view('products.edit', compact('product', 'categories', 'pictures'))->with('viewMode', true);
+            $gambar = StorageService::getData($pictures[0]->picture);
+            return view('products.edit', compact('product', 'categories', 'pictures', 'gambar'))
+                ->with('storageService', app(StorageService::class));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -83,7 +93,8 @@ class ProductController extends Controller
         try {
             $categories = TblProductCategory::all();
             $pictures = TblProductPicture::where('product_id', $product->id)->get();
-            return view('products.edit', compact('product', 'categories', 'pictures'))->with('viewMode', false);
+            $gambar = StorageService::getData($pictures[0]->picture ?? '');
+            return view('products.edit', compact('product', 'categories', 'pictures','gambar'))->with('viewMode', false);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -95,7 +106,7 @@ class ProductController extends Controller
         try {
             $validated = $request->validate([
                 'product_name' => 'required|integer',
-                'merchan_id' => 'required|integer',
+                'merchant_id' => 'required|integer',
                 'type' => 'required|integer',
                 'price' => 'required|numeric',
                 'stock' => 'required|integer',
@@ -144,15 +155,7 @@ class ProductController extends Controller
         }
     }
 
-    public function deletePicture($id)
-    {
-        try {
-            $picture = TblProductPicture::findOrFail($id);
-            Storage::disk('public')->delete($picture->picture);
-            $picture->delete();
-            return response()->json(['success' => 'Gambar berhasil dihapus']);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Gagal menghapus gambar: ' . $e->getMessage()], 500);
-        }
+    public function showImage(){
+        return StorageService::getData($this->photo);
     }
 }

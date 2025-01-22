@@ -20,7 +20,7 @@ class TblProduct extends Model
      */
     protected $fillable = [
         'product_name',
-        'merchan_id',
+        'merchant_id',
         'type',
         'price',
         'stock',
@@ -58,7 +58,11 @@ class TblProduct extends Model
     }
     public function merchant(): BelongsTo
     {
-        return $this->belongsTo(TblMerchant::class, 'merchan_id');
+        return $this->belongsTo(TblMerchant::class, 'merchant_id');
+    }
+    public function pictures(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TblProductPicture::class, 'product_id', 'id');
     }
 
 }

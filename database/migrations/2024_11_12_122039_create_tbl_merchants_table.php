@@ -15,13 +15,18 @@ return new class extends Migration
 
         Schema::create('tbl_merchants', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('name');
-            $table->string('display_picture');
+            $table->string('name');
+            $table->string('display_picture')->nullable();
             $table->bigInteger('city_id');
-            $table->bigInteger('address');
-            $table->bigInteger('contact_person');
+            $table->string('address');
+            $table->string('contact_person');
             $table->boolean('status');
+            $table->boolean('is_active')->default(true);
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
+            $table->bigInteger('deleted_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();

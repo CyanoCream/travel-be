@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,11 @@ Route::prefix('user-management')->group(function () {
 
 Route::get('/products', [ProductController::class, 'getAllProduct']);
 Route::get('/products/{slug}', [ProductController::class, 'getProductBySlug']);
+
+Route::prefix('cart')->group(function () {
+    Route::get('/', [TransactionController::class, 'getCart']);
+    Route::post('/add', [TransactionController::class, 'addToCart']);
+    Route::patch('/items/{id}', [TransactionController::class, 'updateCartItem']);
+    Route::delete('/items/{id}', [TransactionController::class, 'removeCartItem']);
+    Route::delete('/', [TransactionController::class, 'clearCart']);
+});

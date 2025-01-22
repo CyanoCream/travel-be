@@ -12,6 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.2",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "php-open-source-saver/jwt-auth": "^2.7",
         "spatie/laravel-permission": "^6.9"
     },

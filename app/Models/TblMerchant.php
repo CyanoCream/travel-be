@@ -4,16 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class TblMerchant extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'display_picture',
@@ -21,19 +18,39 @@ class TblMerchant extends Model
         'address',
         'contact_person',
         'status',
+        'is_active',
+        'created_by',
+        'updated_by',
+        'deleted_by'
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'integer',
+        'name' => 'string',
         'city_id' => 'integer',
-        'address' => 'integer',
-        'contact_person' => 'integer',
+        'address' => 'string',
+        'contact_person' => 'string',
         'status' => 'boolean',
+        'is_active' => 'boolean'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->created_by = Auth::id();
+            $model->updated_by = Auth::id();
+            $model->is_active = true;
+        });
+
+        static::updating(function ($model) {
+            $model->updated_by = Auth::id();
+        });
+
+        static::deleting(function ($model) {
+            $model->deleted_by = Auth::id();
+            $model->save();
+        });
+    }
 }

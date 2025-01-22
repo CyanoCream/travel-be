@@ -25,9 +25,9 @@
 
 <div class="mb-3">
     <label class="form-label required">ID Merchant</label>
-    <input type="number" name="merchan_id" class="form-control @error('merchan_id') is-invalid @enderror"
-           value="{{ old('merchan_id', $product->merchan_id ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }} required>
-    @error('merchan_id')
+    <input type="number" name="merchant_id" class="form-control @error('merchant_id') is-invalid @enderror"
+           value="{{ old('merchant_id', $product->merchant_id ?? '') }}" {{ isset($viewMode) && $viewMode ? 'disabled' : '' }} required>
+    @error('merchant_id')
     <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
@@ -90,9 +90,10 @@
     @if(isset($pictures) && $pictures->count() > 0)
         <div class="row mt-3">
             @foreach($pictures as $picture)
+                <label>{{$picture->picture}}</label>
                 <div class="col-md-3 mb-3 position-relative">
-                    <img src="{{ Storage::url($picture->picture) }}" class="img-fluid" alt="Product Image">
-                    @if(!isset($viewMode) || !$viewMode)
+                    <img src="{{ $gambar }}" class="img-fluid" alt="Product Image">
+                @if(!isset($viewMode) || !$viewMode)
                         <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-picture"
                                 data-picture-id="{{ $picture->id }}">
                             <i class="fa fa-trash"></i>
