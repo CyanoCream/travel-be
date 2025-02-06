@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Merchant\MerchantController;
+use App\Http\Controllers\Merchant\MerchantPaymentController;
 use App\Http\Controllers\Monitoring\CartItemController;
+use App\Http\Controllers\Monitoring\SalesReportController;
+use App\Http\Controllers\Monitoring\ShipmentController;
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Product\ProductCategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\RoleController;
@@ -60,6 +64,17 @@ Route::middleware('auth')->group(callback: function () {
 //    Monitoring
     Route::resource('cart-items', CartItemController::class);
     Route::get('cart-total', [CartItemController::class, 'getCartTotal']);
+
+//    Merchant-payments
+    Route::resource('merchant-payments', MerchantPaymentController::class);
+
+//    Shipments
+    Route::resource('shipments', ShipmentController::class);
+//    Sales Report
+    Route::resource('sales-reports', SalesReportController::class);
+
+//    Payment
+    Route::resource('payments', PaymentController::class);
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

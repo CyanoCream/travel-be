@@ -108,7 +108,15 @@
         </a>
         <ul id="ddmenu_ecommerce" class="dropdown-nav collapse" style="">
             <li>
-                <a href="{{ route('chart-items.index') }}">Cart Item</a>
+                <a href="{{ route('cart-items.index') }}">Cart Item</a>
+            </li>
+            <li>
+                <a href="{{ route('merchant-payments.index') }}">Merchant Payment</a>
+            </li>
+            <li>
+                <a href="{{ route('shipments.index') }}">Shipments</a>
+            </li> <li>
+                <a href="{{ route('sales-reports.index') }}">Sales Report</a>
             </li>
         </ul>
     </li>
