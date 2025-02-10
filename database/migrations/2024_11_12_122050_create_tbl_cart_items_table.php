@@ -15,7 +15,7 @@ return new class extends Migration
 
         Schema::create('tbl_cart_items', function (Blueprint $table) {
             $table->id();
-            $table->foreign('product_id')->references('id')->on('tbl_products');
+            $table->bigInteger('product_id')->nullable();
             $table->bigInteger('quantity');
             $table->float('price');
             $table->float('total_price');
