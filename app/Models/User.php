@@ -21,12 +21,10 @@ class User extends Authenticatable implements JWTSubject
      */
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'email',
         'password',
-        'birthdate',
-        'address'
+        'role'
     ];
 
     /**
@@ -60,4 +58,9 @@ class User extends Authenticatable implements JWTSubject
         // Return array kosong jika tidak ada klaim tambahan
         return [];
     }
+    public function viewAny(User $user)
+    {
+        return $user->role === 'ADMIN';
+    }
+
 }

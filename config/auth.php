@@ -40,10 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' => [  // menambahkan guard untuk API
-            'driver' => 'jwt',
+        'api' => [
+            'driver' => 'sanctum',
             'provider' => 'users',
-        ]
+        ],
     ],
 
     /*

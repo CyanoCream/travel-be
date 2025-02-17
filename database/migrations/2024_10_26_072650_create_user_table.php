@@ -15,20 +15,15 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
+            $table->string('name');
             $table->string('email')->unique();
-            $table->string('profile_picture')->nullable();
-            $table->string('phone_number')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('username')->nullable();
             $table->string('password');
-            $table->date('birthdate')->nullable();
-            $table->string('refresh_token')->nullable();
-            $table->text('address')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->enum('role', ['ADMIN', 'PASSENGER']);
             $table->rememberToken();
-            $table->timestampsField();
+            $table->timestamps();
         });
+
+
 
         Schema::enableForeignKeyConstraints();
     }
@@ -38,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('users');
     }
 };

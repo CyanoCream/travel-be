@@ -32,54 +32,24 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+//
+//Auth::routes();
 
-Auth::routes();
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(callback: function () {
-    Route::view('about', 'about')->name('about');
-
-// routes/web.php
-//    Master User
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('user-roles', UserRoleController::class);
-
-//    Master City
-    Route::resource('provinces', ProvinceController::class);
-    Route::resource('cities', CityController::class);
-    Route::resource('subdistricts', SubdistrictController::class);
-
-//    product
-    Route::resource('products', ProductController::class);
-    Route::resource('product-category', ProductCategoryController::class);
-
-//    merchant
-    Route::resource('merchants', MerchantController::class);
-
-//    Monitoring
-    Route::resource('cart-items', CartItemController::class);
-    Route::get('cart-total', [CartItemController::class, 'getCartTotal']);
-
-//    Merchant-payments
-    Route::resource('merchant-payments', MerchantPaymentController::class);
-
-//    Shipments
-    Route::resource('shipments', ShipmentController::class);
-//    Sales Report
-    Route::resource('sales-reports', SalesReportController::class);
-
-//    Payment
-    Route::resource('payments', PaymentController::class);
-
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+//
+//Route::middleware('auth')->group(callback: function () {
+//    Route::view('about', 'about')->name('about');
+//
+//    Route::middleware(['check.role:ADMIN'])->group(function () {
+////    Master User
+//
+//    });
+//
+//});
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//
 
